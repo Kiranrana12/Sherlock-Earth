@@ -1,0 +1,6 @@
+{
+  "name": "Sherlock Earth",
+  "description": "Explore 2014–2025 climate trends from NOAA NCEP-DOE Reanalysis 2. See what is changing, where, how much, and whether the trend is statistically significant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

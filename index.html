@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sherlock Earth — Earth System Trend Detective</title>
+  <meta name="description" content="Explore 2014–2025 climate trends from NOAA NCEP-DOE Reanalysis 2. See what is changing, where, how much, and whether the trend is statistically significant.">
+  <meta property="og:title" content="Sherlock Earth">
+  <meta property="og:description" content="Explore 2014–2025 climate trends from NOAA NCEP-DOE Reanalysis 2. See what is changing, where, how much, and whether the trend is statistically significant.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0A0F1F">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script>
+    try {
+      if (localStorage.getItem("change-atlas-theme") === "paper") {
+        document.documentElement.dataset.theme = "paper";
+      }
+    } catch (error) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a class="skip-link" href="#details-panel">Skip to trend details</a>
+
+  <canvas id="starfield" class="starfield" aria-hidden="true"></canvas>
+  <div class="cosmos" aria-hidden="true">
+    <span class="nebula nebula--one"></span>
+    <span class="nebula nebula--two"></span>
+    <span class="nebula nebula--three"></span>
+    <span class="orbit orbit--one"></span>
+    <span class="orbit orbit--two"></span>
+    <span class="planet planet--amber"></span>
+    <span class="planet planet--blue"></span>
+    <span class="moon"></span>
+  </div>
+
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="topbar" id="top">
+      <a class="brand" href="#top" aria-label="Sherlock Earth home">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <ellipse cx="20" cy="20" rx="18" ry="7" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55" transform="rotate(-24 20 20)"/>
+          <circle cx="34.5" cy="12" r="2.2" fill="var(--highlight)"/>
+          <path d="M11 23a9 9 0 0 0 17 1" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">SHERLOCK EARTH</span>
+          <span class="brand-sub">Earth system trend detective</span>
+        </span>
+      </a>
+
+      <p class="mission">Earth's climate record, made legible: what is changing, where, and whether the trend is real.</p>
+
+      <div class="topbar-actions nav-pill">
+        <div class="theme-switch" role="group" aria-label="Color theme">
+          <button type="button" class="theme-option" data-theme-value="night" aria-pressed="true" title="Night palette">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.9 5.9 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            Night
+          </button>
+          <button type="button" class="theme-option" data-theme-value="paper" aria-pressed="false" title="Light palette">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.1" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.4v1.7M8 12.9v1.7M14.6 8h-1.7M3.1 8H1.4M12.7 3.3l-1.2 1.2M4.5 11.5l-1.2 1.2M12.7 12.7l-1.2-1.2M4.5 4.5 3.3 3.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Light
+          </button>
+        </div>
+        <button type="button" class="btn btn--ghost" id="btn-methods">Methods</button>
+        <button type="button" class="btn btn--primary" id="btn-start">Explore</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+    <aside class="control-deck reveal" aria-label="Indicator and search">
+      <div class="variable-group">
+        <span class="eyebrow">Indicator</span>
+        <div class="variable-tabs" id="variable-tabs" role="tablist" aria-label="Climate indicator">
+          <button type="button" role="tab" class="variable-tab" data-variable="temperature" aria-selected="true">
+            <span class="variable-dot" aria-hidden="true"></span>Temperature
+          </button>
+          <button type="button" role="tab" class="variable-tab" data-variable="precipitation" aria-selected="false">
+            <span class="variable-dot" aria-hidden="true"></span>Precipitation
+          </button>
+          <button type="button" role="tab" class="variable-tab" data-variable="humidity" aria-selected="false">
+            <span class="variable-dot" aria-hidden="true"></span>Humidity
+          </button>
+          <button type="button" role="tab" class="variable-tab" data-variable="wind" aria-selected="false">
+            <span class="variable-dot" aria-hidden="true"></span>Wind
+          </button>
+        </div>
+      </div>
+
+      <div class="search-wrap" id="search-wrap">
+        <label class="sr-only" for="place-search">Search for a country or city</label>
+        <div class="search-box">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="place-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-describedby="search-status" autocomplete="off" spellcheck="false" placeholder="Search a country or city">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+        <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+        <p class="sr-only" id="search-status" role="status"></p>
+      </div>
+
+      <div class="control-meta" aria-live="polite">
+        <span class="meta-item"><span class="eyebrow">Source</span><strong>NOAA NCEP Reanalysis 2</strong></span>
+        <span class="meta-item"><span class="eyebrow">Years</span><strong id="meta-years">2014–2025</strong></span>
+        <span class="meta-item"><span class="eyebrow">Units</span><strong id="meta-units">°C/year</strong></span>
+      </div>
+    </aside>
+
+    <div class="work-main">
+    <p class="status-strip" id="global-status" role="status">
+      <span id="status-text">Preparing the 5° trend grid…</span>
+      <button type="button" class="text-btn status-retry" id="btn-retry-data" hidden>Retry data</button>
+    </p>
+
+    <main class="layout">
+      <section class="panel globe-panel reveal" aria-labelledby="globe-heading">
+        <div class="panel-bar">
+          <div>
+            <span class="eyebrow">Where it is changing</span>
+            <h1 id="globe-heading">Global trend field</h1>
+          </div>
+          <div class="panel-actions">
+            <span class="sig-chip" id="sig-chip"><span class="sig-dot" aria-hidden="true"></span><span id="sig-count">Loading</span></span>
+            <button type="button" class="icon-btn" id="btn-layers" aria-pressed="true">Labels</button>
+            <button type="button" class="icon-btn" id="btn-rotate" aria-pressed="true">Orbit</button>
+            <button type="button" class="icon-btn" id="btn-country" aria-pressed="false">Country mode</button>
+          </div>
+        </div>
+
+        <div class="globe-stage" id="globe-stage">
+          <div class="globe-rings" aria-hidden="true">
+            <span class="globe-ring globe-ring--a"></span>
+            <span class="globe-ring globe-ring--b"></span>
+            <span class="globe-ring globe-ring--c"></span>
+            <span class="globe-spark"></span>
+          </div>
+          <div id="globe" class="globe-canvas" role="img" aria-label="Interactive 3D globe showing climate trend cells. Use the country search or the regions list for a keyboard-accessible alternative."></div>
+          <div class="globe-labels" id="globe-labels" aria-hidden="true"></div>
+          <div class="globe-selection" id="globe-selection" aria-hidden="true" hidden></div>
+          <div class="globe-selection globe-selection--compare" id="globe-compare-selection" aria-hidden="true" hidden></div>
+
+          <div class="globe-loading" id="globe-loading" role="status">
+            <span class="loader-orbit" aria-hidden="true"></span>
+            <span>Loading Earth…</span>
+          </div>
+
+          <div class="globe-error" id="globe-error" hidden>
+            <strong>The 3D globe could not start.</strong>
+            <span>Search and the trend panels still work.</span>
+            <button type="button" class="btn btn--ghost" id="btn-retry-globe">Retry globe</button>
+          </div>
+
+          <div class="globe-controls">
+            <button type="button" class="btn btn--quiet" id="btn-base">Natural Earth</button>
+            <button type="button" class="btn btn--quiet" id="btn-reset">Reset view</button>
+          </div>
+
+          <p class="globe-hint" id="globe-hint">Drag to orbit · scroll to zoom · click a 5° cell</p>
+        </div>
+
+        <div class="legend" id="legend">
+          <div class="legend-head">
+            <strong id="legend-title">Temperature slope</strong>
+            <span id="legend-period">2014–2025</span>
+            <div class="mini-switch" id="live-switch" role="group" aria-label="Globe data mode">
+              <button type="button" data-mode="trend" aria-pressed="true">Trend</button>
+              <button type="button" data-mode="live" aria-pressed="false">Live</button>
+            </div>
+          </div>
+          <div class="legend-bar">
+            <div class="legend-scale" id="legend-scale" aria-hidden="true"></div>
+            <div class="legend-ticks">
+              <span id="legend-min">−0.35</span><span>0</span><span id="legend-max">+0.35</span>
+            </div>
+          </div>
+          <div class="legend-notes">
+            <p class="legend-caption"><span id="legend-direction">Blue = cooling · red = warming</span> <span class="legend-unit" id="legend-unit">°C/yr</span></p>
+            <p class="legend-key" id="legend-key"><span class="legend-dot" aria-hidden="true"></span> dot = significant <span class="legend-fade" aria-hidden="true"></span> faded = p ≥ 0.05</p>
+          </div>
+        </div>
+
+        <p class="panel-foot">
+          <span id="globe-footnote">5° cell slopes, centered on zero. Dot = p &lt; 0.05.</span>
+          <button type="button" class="text-btn" data-open-methods>How to read this</button>
+        </p>
+      </section>
+
+      <div class="trend-column">
+        <section class="panel details-panel reveal" id="details-panel" aria-labelledby="detail-title">
+          <header class="selection-head">
+            <div class="selection-kicker">
+              <span class="eyebrow" id="detail-type">Global average</span>
+              <button type="button" class="text-btn" id="btn-compare" aria-pressed="false">Compare</button>
+            </div>
+            <h2 id="detail-title">Planet Earth</h2>
+            <p id="detail-sub">Area-weighted planetary mean · 2,592 cells</p>
+          </header>
+
+          <div class="stat-row">
+            <div class="stat-main">
+              <span class="eyebrow">Estimated trend</span>
+              <div class="stat-value"><span id="detail-slope">—</span><span class="stat-unit" id="detail-unit"></span></div>
+              <span class="stat-context" id="detail-context">Loading the planetary mean…</span>
+            </div>
+            <div class="stat-side">
+              <span class="eyebrow">p-value</span>
+              <span class="stat-p" id="detail-p">—</span>
+              <span class="badge badge--nosig" id="detail-badge">Loading</span>
+            </div>
+          </div>
+
+          <figure class="chart-figure">
+            <figcaption class="chart-head">
+              <div>
+                <h3>Annual series</h3>
+                <p id="chart-caption">Area-weighted annual mean with linear fit</p>
+              </div>
+              <span class="chart-range" id="chart-range"></span>
+            </figcaption>
+            <div class="chart-wrap" id="chart-wrap">
+              <canvas id="trend-chart" role="img" aria-label="Annual climate series with a fitted linear trend line"></canvas>
+              <div class="chart-state" id="chart-state" role="status">Loading annual values…</div>
+            </div>
+            <p class="chart-legend">
+              <span><i class="key key--data" aria-hidden="true"></i>Annual value</span>
+              <span><i class="key key--trend" aria-hidden="true"></i>Linear fit</span>
+              <span id="legend-compare" hidden><i class="key key--compare" aria-hidden="true"></i><span id="legend-compare-name">Comparison</span></span>
+              <span id="chart-source">NOAA NCEP Reanalysis 2</span>
+            </p>
+          </figure>
+
+          <section class="all-vars" aria-labelledby="all-vars-title">
+            <div class="section-head">
+              <h3 id="all-vars-title">All four indicators</h3>
+              <span class="eyebrow">Same place, same record</span>
+            </div>
+            <div class="variable-cards" id="variable-cards" aria-live="polite">
+              <div class="variable-card is-loading"></div>
+              <div class="variable-card is-loading"></div>
+              <div class="variable-card is-loading"></div>
+              <div class="variable-card is-loading"></div>
+            </div>
+          </section>
+
+          <section class="compare-slot" id="compare-slot" hidden aria-labelledby="compare-title">
+            <div class="section-head">
+              <h3 id="compare-title">Compare places</h3>
+              <button type="button" class="text-btn" id="btn-compare-clear">Clear</button>
+            </div>
+            <div class="compare-grid" id="compare-grid"></div>
+            <p class="compare-hint" id="compare-hint" hidden>Click a second cell or country on the globe, or search for a place. The comparison series is highlighted in the chart.</p>
+          </section>
+        </section>
+
+        <section class="panel agent-panel reveal" aria-labelledby="agent-title">
+          <header class="agent-head">
+            <div>
+              <span class="eyebrow">Onboard agent</span>
+              <h2 id="agent-title">SI agent</h2>
+              <p class="agent-sub">Give it a goal. It plans tool calls over the atlas data, then acts on the globe and panels. Not a chatbot.</p>
+            </div>
+            <span class="agent-mode" id="agent-mode">onboard planner</span>
+          </header>
+
+          <form class="agent-form" id="agent-form">
+            <label class="sr-only" for="agent-goal">Goal for the SI agent</label>
+            <input id="agent-goal" type="text" autocomplete="off" spellcheck="false" maxlength="140" placeholder="Where is warming fastest?">
+            <button type="submit" class="btn btn--accent" id="agent-run">Run</button>
+            <button type="button" class="btn btn--quiet" id="agent-stop" hidden>Stop</button>
+          </form>
+
+          <div class="agent-chips" id="agent-chips">
+            <button type="button" class="chip">Where is warming fastest?</button>
+            <button type="button" class="chip">Focus the Sahel</button>
+            <button type="button" class="chip">Biggest regional contrast</button>
+            <button type="button" class="chip">Show live temperature</button>
+            <button type="button" class="chip">Satellite imagery</button>
+          </div>
+
+          <ol class="agent-trace" id="agent-trace" aria-live="polite" aria-label="SI agent step trace"></ol>
+          <p class="agent-note">Every step reads the project JSON or the labelled live feeds. The SI agent never invents a number.</p>
+        </section>
+      </div>
+    </main>
+    </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-name">SHERLOCK EARTH</span>
+        <p>NASA Space Apps Challenge 2026<br>Sherlock Earth team</p>
+      </div>
+      <div class="footer-col">
+        <h3>Data</h3>
+        <p>NOAA NCEP-DOE Reanalysis 2 (2014–2025), accessed through NOAA Physical Sciences Laboratory THREDDS. Country outlines and populated places from Natural Earth. Every displayed number comes from the project JSON.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Read before you cite</h3>
+        <p>Reanalysis is model-assisted, records are short, and p-values are unadjusted. <button type="button" class="text-btn" data-open-methods>Methods and limitations</button></p>
+      </div>
+    </footer>
+  </div>
+
+  <dialog class="methods-dialog" id="methods-dialog" aria-labelledby="methods-title">
+    <div class="dialog-head">
+      <div>
+        <span class="eyebrow">Methods and limitations</span>
+        <h2 id="methods-title">How to read Sherlock Earth</h2>
+      </div>
+      <button type="button" class="dialog-close" id="btn-close-methods" aria-label="Close methods">&times;</button>
+    </div>
+    <div class="dialog-body">
+      <section>
+        <h3>What the map shows</h3>
+        <p>Each colored cell is a 5° grid cell. The color is the slope of a linear regression through the cell's annual values, in the indicator's units per year. The scale is fixed across every view of that indicator, centered on zero: blue means decreasing, red means increasing. Values beyond the legend limits are clipped to the end colors.</p>
+        <p>A small white marker with a dark rim means p &lt; 0.05. Cells that are not statistically significant are shown at about 35% opacity. Never judge significance from color alone; read the badge in the details panel.</p>
+      </section>
+      <section>
+        <h3>Data and processing</h3>
+        <p>NCEP-DOE Reanalysis 2 is a global model-assisted reanalysis (~1.875° T62 Gaussian grid), not a single-station network. Annual means (and annual totals for precipitation) are calculated from complete calendar years 2014–2025. Country values are area-weighted means of 5° grid cells inside each boundary. City values come from the nearest 5° grid cell, so nearby cities can share a grid cell.</p>
+        <p>Country and city data are precomputed in the project JSON. Region values are area-weighted means over each named bounding box. No value is estimated or filled in by this website.</p>
+      </section>
+      <section>
+        <h3>Statistical caution</h3>
+        <p>The trend is an ordinary least-squares slope. The p-value tests whether that slope differs from zero; it is not adjusted for multiple testing. With 2,592 cells, roughly 5% (about 130 cells) can appear significant by chance alone. A 10–12 year record is short, and a significant slope is not proof of a long-term climate trend or of causation.</p>
+      </section>
+      <section>
+        <h3>Fixed color domains</h3>
+        <table class="methods-table" id="methods-scales">
+          <thead><tr><th>Indicator</th><th>Fixed slope limit</th><th>Years</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p>Using a separate fixed domain per indicator is deliberate: the units differ, so one shared number would imply a false equivalence. Within an indicator, one color means the same slope everywhere.</p>
+      </section>
+      <section>
+        <h3>Attribution</h3>
+        <p>Reanalysis series are derived from NCEP-DOE Reanalysis 2 provided by NOAA PSL, Boulder, Colorado, USA. Live temperature conditions come from Open-Meteo Forecast, and true-color satellite imagery comes from NASA GIBS. Natural Earth provides country outlines and populated places.</p>
+      </section>
+    </div>
+  </dialog>
+
+  <noscript>
+    <p class="noscript">This explorer needs JavaScript to draw the globe and trend charts.</p>
+  </noscript>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
+
