@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 import { refreshChartTheme } from "./charts.js";
 
 const STORAGE_KEY = "change-atlas-theme";

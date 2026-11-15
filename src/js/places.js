@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Place search and country hit-testing.
 // The 1.1 MB search index is fetched only when someone uses search, and the
 // country outlines only when country mode or cell naming needs them.

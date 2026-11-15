@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Live Earth data: Open-Meteo current conditions and NASA GIBS imagery.
 // Both are fetched lazily (only when the visitor turns a live mode on) and
 // every value shown is labelled with its source and fetch time in the UI.

@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Details panel: turns any selection into a four-indicator record, renders the
 // headline trend, the annual chart and the companion cards. Each indicator is
 // loaded independently so a single failed file only disables its own card.

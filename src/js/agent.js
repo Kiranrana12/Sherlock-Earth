@@ -1,7 +1,11 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // SI agent: a goal-driven tool loop, not a chat window.
 // It reads a goal, plans an ordered list of tool calls over the site's own
 // data (regions.json, top_trends.json, the place index, the live API) and
 // executes them against the atlas, narrating every step in a visible trace.
+
+export const SI_SYSTEM_PROMPT =
+  "You are an SI assistant on the Sherlock Earth website. Always make clear you are an SI, never claim to be NASA or speak for NASA, do not invent data values, and send users to the map and charts for trend numbers. If unsure, say so.";
 
 import { SIGNIFICANCE_LEVEL, VARIABLES } from "./config.js";
 import {

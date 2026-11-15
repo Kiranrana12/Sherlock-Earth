@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Living space backdrop: a slow depth-drifted starfield plus dust, both parallaxed
 // against the pointer. CSS nebula layers sit underneath and drift on their own.
 

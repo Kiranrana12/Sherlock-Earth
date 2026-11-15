@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Chart.js wrappers for the annual series, fitted trend lines and card
 // sparklines. Colors follow the project's chart palette, not the map scale.
 

@@ -1849,7 +1849,45 @@ html.cursor-on .cursor-glow { opacity: 1; }
 .agent-step[data-state="running"] .agent-tool { color: var(--text); }
 .agent-step[data-state="failed"] .agent-tool { color: var(--error); }
 .agent-step[data-state="plan"] .agent-tool { color: var(--text-muted); }
+.agent-disclaimer {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.45;
+  max-width: 50ch;
+}
+.agent-si-tag {
+  margin-top: 2px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--rule-soft);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  line-height: 1.4;
+}
+.agent-step .agent-detail { overflow-wrap: anywhere; }
 .agent-note { margin: 0; color: var(--text-muted); font-size: 9.5px; line-height: 1.5; }
+
+/* ---------- SI transparency section ---------- */
+
+.si-use-section {
+  margin-top: 28px;
+  padding: 18px 20px;
+}
+.si-use-section h2 {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.si-use-section p {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  line-height: 1.65;
+  max-width: 92ch;
+}
 
 /* ---------- Footer ---------- */
 
@@ -1857,7 +1895,7 @@ html.cursor-on .cursor-glow { opacity: 1; }
   display: grid;
   grid-template-columns: .7fr 1.1fr 1.1fr;
   gap: 30px;
-  margin-top: 48px;
+  margin-top: 22px;
   padding: 24px 2px 26px;
   border-top: 1px solid var(--border);
   color: var(--text-muted);

@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Turns the 5° cell table into one smooth equirectangular veil.
 // Colors stay attached to their cells; a soft blur removes the hard grid
 // edges so the sphere reads as a trend field rather than a checkerboard.

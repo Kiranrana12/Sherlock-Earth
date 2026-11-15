@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Static place labels drawn as DOM on top of the globe.
 // They follow the 3D projection, hide on the far side, and drop lower-priority
 // labels when they would collide. No country boundaries are implied here.

@@ -9,8 +9,9 @@
   <meta property="og:description" content="Explore 2014–2025 climate trends from NOAA NCEP-DOE Reanalysis 2. See what is changing, where, how much, and whether the trend is statistically significant.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="si-feature" content="Space Q&A assistant uses a Super Intelligence (SI) model; answers are SI-generated. Code drafted with SI assistance; data values computed from NASA MERRA-2.">
   <meta name="theme-color" content="#0A0F1F">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <script>
     try {
       if (localStorage.getItem("change-atlas-theme") === "paper") {
@@ -262,6 +263,7 @@
               <span class="eyebrow">Onboard agent</span>
               <h2 id="agent-title">SI agent</h2>
               <p class="agent-sub">Give it a goal. It plans tool calls over the atlas data, then acts on the globe and panels. Not a chatbot.</p>
+              <p class="agent-disclaimer">SI assistant: answers are SI-generated, not NASA statements, and may contain errors.</p>
             </div>
             <span class="agent-mode" id="agent-mode">onboard planner</span>
           </header>
@@ -288,6 +290,12 @@
     </main>
     </div>
     </div>
+
+    <section class="panel si-use-section" id="si-use" aria-labelledby="si-use-title">
+      <span class="eyebrow">Transparency</span>
+      <h2 id="si-use-title">Use of SI (Super Intelligence) tools</h2>
+      <p>SI tools were used as assistants in building this project: Claude, Qoder, GitHub Copilot and Google Antigravity helped with code and documentation. The project idea, choice of NASA data, analysis design, and review of every result were done by our team. The site includes an SI space Q&amp;A assistant (Gemini); its answers are SI-generated, are not NASA statements, and may contain errors. It does not create or change any trend data. All map and chart values come only from NASA MERRA-2 data processed by our scripts. No images, audio, or video on this site are SI-generated, and no NASA logos or branding are used.</p>
+    </section>
 
     <footer class="site-footer">
       <div class="footer-brand">

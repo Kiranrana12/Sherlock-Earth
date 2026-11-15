@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 export const VARIABLES = {
   temperature: {
     label: "Temperature",
@@ -87,13 +88,13 @@ export const CHART_COLORS = {
 };
 
 export const PATHS = {
-  trends: (variable) => `data/trends_${variable}.json`,
-  regions: "data/regions.json",
-  topTrends: "data/top_trends.json",
-  countries: "data/countries.geojson",
-  countriesIndex: "data/countries_index.json",
-  cellLocations: "data/cell_locations.json",
-  placesIndex: "data/places/index.json",
-  placeCountries: "data/places/countries.json",
-  placeCities: (code) => `data/places/cities/${code}.json`,
+  trends: (variable) => `./data/trends_${variable}.json`,
+  regions: "./data/regions.json",
+  topTrends: "./data/top_trends.json",
+  countries: "./data/countries.geojson",
+  countriesIndex: "./data/countries_index.json",
+  cellLocations: "./data/cell_locations.json",
+  placesIndex: "./data/places/index.json",
+  placeCountries: "./data/places/countries.json",
+  placeCities: (code) => `./data/places/cities/${code}.json`,
 };

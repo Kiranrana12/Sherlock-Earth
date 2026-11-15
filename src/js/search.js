@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Accent-insensitive place combobox over the lazy search index.
 // The index is fetched on first focus, then filtering runs in memory.
 

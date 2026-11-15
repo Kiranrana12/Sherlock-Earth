@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 const numberFormatCache = new Map();
 
 function numberFormatter(min, max) {

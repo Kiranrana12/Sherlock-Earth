@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 const FINE_POINTER = window.matchMedia("(pointer: fine)");
 const HOVER = window.matchMedia("(hover: hover)");
 const WIDE = window.matchMedia("(min-width: 961px)");

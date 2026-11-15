@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 import { INITIAL_VARIABLE, VARIABLES } from "./config.js";
 import { createSiAgent } from "./agent.js";
 import { loadRegions, loadTrends } from "./data.js";
@@ -540,6 +541,13 @@ function setupAgent() {
       li.dataset.state = stepState;
       li.querySelector(".agent-tool").textContent = tool;
       li.querySelector(".agent-detail").textContent = detail || "";
+      if (id === "result" && stepState === "done") {
+        traceEl.querySelectorAll(".agent-si-tag").forEach((node) => node.remove());
+        const tag = document.createElement("li");
+        tag.className = "agent-si-tag";
+        tag.textContent = "✦ SI-generated answer. May contain errors.";
+        traceEl.append(tag);
+      }
     },
     actions: {
       getVariable: () => state.variable,

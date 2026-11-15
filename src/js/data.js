@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // Small JSON loader with an in-memory cache.
 // A failed request is evicted so a retry can actually refetch it.
 

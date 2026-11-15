@@ -1,3 +1,4 @@
+/* SI-assisted: drafted with SI tools and reviewed and tested by the team. */
 // 3D globe: real Earth texture, baked borders, trend veil and significance dots.
 // Everything drawn here is derived from the JSON files; the country raster is
 // generated from countries.geojson by pipeline/render_borders.py.
@@ -16,9 +17,9 @@ if (typeof window !== "undefined" && !window.Globe) {
 }
 
 const TEXTURES = {
-  natural: "assets/earth/earth-natural.jpg",
-  data: "assets/earth/earth-data.png",
-  borders: "assets/earth/borders.png",
+  natural: "./assets/earth/earth-natural.jpg",
+  data: "./assets/earth/earth-data.png",
+  borders: "./assets/earth/borders.png",
 };
 const VEIL_RADIUS = 100.35;
 const BORDER_RADIUS = 100.55;
